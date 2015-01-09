@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="/css/normalize.css">
+
+  <link rel="stylesheet" href="/css/application.css">
+  <link rel="stylesheet" href="/css/magnific-popup.css">
+<!--   <link rel="stylesheet" href="/css/bootstrap.css"> -->
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+  <link rel="stylesheet" href="http://bootswatch.com/simplex/bootstrap.css">
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="/js/application.js"></script>
+  <script src="/js/jquery.magnific-popup.js"></script>
+
+  <title></title>
+</head>
+<body>
+
+  <nav class="navbar-collapse collapse navbar-responsive-collapse" id="navbar-main">
+    <div class="brand"><img src="/img/hklogo.jpg" width="100px"><a href="/">House Keeper</a>
+    </div>
+      <% if authorized? %>
+        <div id="always_buttons">
+          <form action="/logout" class="inline">
+            <button class="btn btn-lg btn-primary" id="sign_out">Sign Out</button>
+          </form>
+          <button class="btn btn-lg btn-primary" id="call_in">Call-In!</button>
+          <button class="btn btn-lg btn-primary" id="cash_out">Cash-Out!</button>
+        </div>
+      <% else %>
+        <li><a href="/">Sign In</a></li>
+        <li><a href="/signup">Sign Up</a></li>
+      <% end %>
+  </nav>
+  <%= yield %>
+        <div id="popup4" class="white-popup mfp-hide">
+          <h3>You Sure?</h3>
+          <p>This will send an invoice to all roommates and reset all utilities for next month.</p>
+          <button id="yessure" class="btn btn-lg btn-primary">Yes</button><button id="notsure" class="btn btn-lg btn-primary">No</button>
+      </div>
+      <div id="popup5" class="white-popup mfp-hide">
+          <h3>You Sure?</h3>
+          <p>This will send an email to all roommates reminding them to fill in their details before bills are officially called in.</p>
+          <button id="yessure_call_in" class="btn btn-lg btn-primary">Yes</button><button id="notsure" class="btn btn-lg btn-primary">No</button>
+      </div>
+<!-- Latest compiled and minified JavaScript -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+</body>
+<footer>Written in javascript and ruby. © <a href="mailto:ashford91@gmail.com">Alexander Ashford</a> 2014
+</footer>
+</html>

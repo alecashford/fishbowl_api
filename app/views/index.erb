@@ -1,0 +1,129 @@
+<div class="container">
+<!-- Show this is user is signed in -->
+
+<% if authorized? %>
+
+<h3><%= "Welcome, #{session[:first_name]}!" %></h3>
+
+  <% if true_when_utilities %>
+  <h4><%= "Here are all bills for #{month}." %></h4>
+    <table class="utility_table">
+      <tr>
+      <th><em>Utility Type</em></th>
+        <th><em>Provider</em></th>
+        <th><em>Cost</em></th>
+      </tr>
+    </table>
+
+    <div class="utility_list"></div>
+  <% end %>
+
+  <table class="sum_of_all">
+      <tr id="final_sum">
+        <td><%= "Subtotal: #{sum_total}" %></td>
+      </tr>
+    </table>
+  <table class="sum_of_all">
+    <tr id="your_share">
+      <td><%= "Your Share: #{your_share}" %></td>
+    </tr>
+  </table>
+  
+ <!--  <% if roommates %>
+    <h4>Your roommates are:</h4>
+    <% roommates.each do |obj| %>
+      <% unless obj.id == session[:user_id] %>
+        <%= "#{obj.first_name}" %><br>
+      <% end %>
+    <% end %>
+  <% end %> -->
+  <br>
+    <div id="popup" class="white-popup mfp-hide">
+      <form id="add_expenditure" method="post">
+          <label for="cost">Cost</label>
+          <input type="text" class="cost form-control" placeholder="e.g. 123"/>
+          <label for="note">Note</label>
+          <input type="text" class="note form-control" placeholder="e.g. for groceries, booze"/>
+          <br>
+          <button class="btn btn-lg btn-primary btn-block" id="subl">Add</button>
+      </form>
+    </div>
+
+    <button class="btn btn-lg btn-primary" id="button1">Add Expenditure</button>
+    <button class="btn btn-lg btn-primary" id="button2">Add User</button>
+    <button class="btn btn-lg btn-primary" id="button3">Add Utility</button>
+
+
+  <!-- Add User -->
+
+    <div id="popup2" class="white-popup mfp-hide">
+        <form id="register_user" method="post">
+
+          <label for="first_name">First Name</label>
+          <input type="text" name="first_name" class="form-control" placeholder="e.g. John" >
+          <br>
+
+          <label for="last_name">Last Name</label>
+          <input type="text" name="last_name" class="form-control" placeholder="e.g. Doe" >
+          <br>
+
+          <label for="email">Email</label>
+          <input type="text" name="email" class="form-control" placeholder="e.g. me@example.com" >
+          <br>
+
+          <label for="phone">Phone</label>
+          <input type="text" name="phone" class="form-control" placeholder="e.g. 415-770-3948" >
+          <br>
+
+          <label for="password">Password</label>
+          <input type="password" name="password" class="form-control" placeholder="6 or more characters">
+          <br>
+          <button class="btn btn-lg btn-primary btn-block" id="submit_new_user">Add</button>
+        </form>
+      </div>
+
+      <div id="popup3" class="white-popup mfp-hide">
+        <form id="add_utility" method="post" action="/create-utility">
+
+          <label for="utility_type">Type</label>
+          <input type="text" name="utility_type" class="form-control" placeholder="e.g. Electric" >
+          <br>
+
+          <label for="provider">Provider</label>
+          <input type="text" name="provider" class="form-control" placeholder="e.g. PGE" >
+          <br>
+
+          <label for="amount">Amount</label>
+          <input type="text" name="amount" class="form-control" placeholder="e.g. 56.93">
+          <br>
+          <button class="btn btn-lg btn-primary btn-block" id="submit_utility">Add</button>
+        </form>
+      </div>
+
+<!-- Template for utility table -->
+  <div id="table_row_template">
+    <div id="table_row" style="display: none;">
+      <table>
+          <tr>
+            <td>Name</td>
+            <td>Type</td>
+            <td>Amount</td>
+          </tr>
+      </table>
+    </div>
+  </div>
+<br>
+
+
+<!-- Show this (sign in screen) if no sessions -->
+<% else %>
+  <h3>Welcome, Friend!</h3>
+    <h5>Please sign in, or <a href="/register_house">register your house</a>!</h5>
+    <br>
+    <form action="/sessions" method="post">
+      <input type="text" name="email" placeholder="Email">
+      <input type="password" name="password" placeholder="Password">
+      <input type="submit" value="login" class="button">
+    </form>
+<% end %>
+</div>
