@@ -57,8 +57,20 @@ post '/join-fishbowl' do
 	end
 end
 
+# Input: :user_id
+# Output: JSON obj in format #=> [{title: 'str', score: int, community_id: int, mine: 'bool'}]
+post '/popultate-feed' do
+	user_communities = Membership.where(params[:user_id]).map { |membership| membership.community_id }
+	all_posts = Post.where(community_id: user_communities)
+	# Test from here on once sample data has been created
+	all_posts.map do |post|
+		mine = post.user_id == params[:user_id]
+		{title: post.title, score: post.score, mine: mine}
+	end.to_json
+end
+
 post '/create-post' do
-	
+
 end
 
 
