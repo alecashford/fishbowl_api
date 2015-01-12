@@ -9,7 +9,8 @@ Sprint 1
 
 
 Sprint 2
--Display feed of all posts in all fishbowls member is a part of
+-MVC with single endpoint
+-Display feed of all posts in all fishbowls member is a part of #
 -Allow user to post anonymously to single fishbowl
 -Allow user to select one post and go to post page to see all comments
 -From post page, allow user to comment anonymously on post
@@ -24,6 +25,7 @@ Sprint 3
 -Add security (bcrypt)
 
 Sprint 4
+-Add polls
 -Add user settings page
 -Forget password page
 -Post/comment voting

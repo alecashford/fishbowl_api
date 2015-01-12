@@ -1,9 +1,40 @@
+# %%%
+before do
+   content_type :json    
+   headers 'Access-Control-Allow-Origin' => '*', 
+            'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST'],
+            'Access-Control-Allow-Headers' => 'Content-Type'
+end
+
+
+
 get '/' do
   "success".to_json
 end
 
-post '/' do 
-  
+post '/' do
+	# Necessary for CORS
+	begin
+    params.merge! JSON.parse(request.env["rack.input"].read)
+  rescue JSON::ParserError
+    logger.error "Cannot parse request body." 
+  end
+
+  switchboard = {
+  	"logout" => lambda { logout },
+  	"login" => lambda { login },
+  	"create_user" => lambda { create_user(params[:payload]) },
+  	"populate_feed" => lambda { populate_feed(params[:payload]) },
+  	"join_fishbowl" => lambda { join_fishbowl(params[:payload]) },
+  	"create_fishbowl" => lambda { create_fishbowl(params[:payload]) }
+  }
+  "hold on.to_json"
+  switchboard[params[:action]].call
+end
+
+# Also necessary for CORS
+options '/' do
+    200
 end
 
 # #----------- SESSIONS -----------
@@ -20,7 +51,7 @@ end
 # #----------- USERS -----------
 
 # Input: :primary_email, :first_name, :last_name, :password
-post '/create-user' do
+post '/create_user' do
 	User.create(:primary_email => params[:primary_email], :first_name => params[:first_name],
 							:last_name => params[:last_name], :password_hash => BCrypt::Password.create(params[:password]))
 	"success".to_json
@@ -28,7 +59,7 @@ end
 
 # Input: :member_email, :user_id, :display_name
 # Needs to pass user_id to work. Improve this (and elsewhere where same trick is used) when working on security
-post '/create-fishbowl' do
+post '/create_fishbowl' do
 	parsed_email = /^(.+)@(.+)/.match(params[:member_email])
 	local_part = parsed_email[1]
 	domain_part = parsed_email[2]
@@ -39,7 +70,7 @@ post '/create-fishbowl' do
 end
 
 # Input: :member_email, :user_id
-post '/join-fishbowl' do
+post '/join_fishbowl' do
 	parsed_email = /^(.+)@(.+)/.match(params[:member_email])
 	local_part = parsed_email[1]
 	domain_part = parsed_email[2]
@@ -59,8 +90,14 @@ end
 
 # Input: :user_id
 # Output: JSON obj in format #=> [{title: 'str', score: int, community_id: int, mine: 'bool'}]
-post '/popultate-feed' do
-	user_communities = Membership.where(params[:user_id]).map { |membership| membership.community_id }
+post '/populate_feed' do
+	begin
+    params.merge! JSON.parse(request.env["rack.input"].read)
+  rescue JSON::ParserError
+    logger.error "Cannot parse request body." 
+  end
+	p params
+	user_communities = Membership.where(user_id: params[:user_id]).map { |membership| membership.community_id }
 	all_posts = Post.where(community_id: user_communities)
 	# Test from here on once sample data has been created
 	all_posts.map do |post|
@@ -69,10 +106,21 @@ post '/popultate-feed' do
 	end.to_json
 end
 
-post '/create-post' do
+options '/populate_feed' do
+    200
+end
+
+post '/create_post' do
 
 end
 
+get '/test' do
+	"It worked! ;)".to_json
+end
+
+post '/test' do
+	"It worked! ;)".to_json
+end
 
 # post '/add-user' do
 #   content_type :json

@@ -9,6 +9,8 @@ gem 'faker'
 
 gem 'acts_as_tree'
 
+gem 'awesome_print'
+
 # PostgreSQL driver
 gem 'pg'
 

@@ -6,6 +6,6 @@ class Reply < ActiveRecord::Base
 	# # has_many :inverse_threads, :class_name => "Thread", :foreign_key => "child_id"
 	# # has_many :inverse_children, :through => :inverse_threads, :source => :reply
 
-	acts_as_tree order: 'score'
+	# acts_as_tree order: 'score'
 
 end
