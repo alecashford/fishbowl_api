@@ -11,9 +11,9 @@ end
 	end
 end
 
-Community.create(domain_part: "willamette.edu", display_name: "Willamette University")
-Community.create(domain_part: "kenyon.edu", display_name: "Kenyon College")
-Community.create(domain_part: "deloitte.com", display_name: "Deloitte")
+Community.create(domain_part: "willamette.edu", display_name: "Willamette University", creator_id: 1)
+Community.create(domain_part: "kenyon.edu", display_name: "Kenyon College", creator_id: 2)
+Community.create(domain_part: "deloitte.com", display_name: "Deloitte", creator_id: 1)
 
 150.times do
 	Post.create(title: Faker::Lorem.sentence, content: Faker::Lorem.paragraph(rand(12) + 1),

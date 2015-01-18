@@ -6,8 +6,6 @@ before do
             'Access-Control-Allow-Headers' => 'Content-Type'
 end
 
-
-
 get '/' do
   "success".to_json
 end
@@ -19,16 +17,17 @@ post '/' do
   rescue JSON::ParserError
     logger.error "Cannot parse request body." 
   end
-
   switchboard = {
   	"logout" => lambda { logout },
   	"login" => lambda { login },
   	"create_user" => lambda { create_user(params[:payload]) },
   	"populate_feed" => lambda { populate_feed(params[:payload]) },
+  	"populate_specific_feed" => lambda { populate_specific_feed(params[:payload]) },
   	"join_fishbowl" => lambda { join_fishbowl(params[:payload]) },
-  	"create_fishbowl" => lambda { create_fishbowl(params[:payload]) }
+  	"create_fishbowl" => lambda { create_fishbowl(params[:payload]) },
+  	"get_comments" => lambda { get_comments(params[:payload]) },
+  	"my_groups" => lambda { my_groups(params[:payload]) }
   }
-  "hold on.to_json"
   switchboard[params[:action]].call
 end
 
@@ -106,9 +105,9 @@ post '/populate_feed' do
 	end.to_json
 end
 
-options '/populate_feed' do
-    200
-end
+# options '/populate_feed' do
+#     200
+# end
 
 post '/create_post' do
 

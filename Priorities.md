@@ -17,6 +17,7 @@ Sprint 2
 -Basic interface set up on cordova
 
 Sprint 3
+-Sort comments by time or score
 -Nested comments
 -Start new fishbowl through secret code
 -Menu that allows user to select which fishbowls they see on their feed
@@ -31,4 +32,5 @@ Sprint 4
 -Post/comment voting
 -Sorting of posts/comments based on votes
 -Add user page where they can see their credit
+-Add where community manager can add people based on a secret code, and 
 (idea--posting/commenting gives you vote--votes finite? Experiment with this...)
