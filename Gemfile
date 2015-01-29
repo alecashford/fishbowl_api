@@ -7,7 +7,7 @@ gem 'rspec'
 gem 'factory_girl'
 gem 'faker'
 
-gem 'acts_as_tree'
+gem 'awesome_nested_set'
 
 gem 'awesome_print'
 

@@ -20,7 +20,7 @@ Community.create(domain_part: "deloitte.com", display_name: "Deloitte", creator_
 							score: rand(50), user_id: (rand(500) + 1), community_id: (rand(3) + 1))
 end
 
-(1..150).each do |i|
-	Reply.create(content: Faker::Lorem.paragraph(rand(7) + 1), score: rand(25), user_id: (rand(500) + 1),
-							 post_id: (rand(50) + 1))
+(1..700).each do |i|
+	Reply.create(content: Faker::Lorem.paragraph(rand(5) + 1), score: rand(25), user_id: (rand(500) + 1),
+							 post_id: (rand(150) + 1))
 end

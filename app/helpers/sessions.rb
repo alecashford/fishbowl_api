@@ -85,35 +85,35 @@ helpers do
     {owner: bool, posts: formatted_posts}.to_json
   end
 
-    # Started the work for hash lookup here, may finish later
-  # def populate_feed(data)
-  #   user_communities = Membership.where(user_id: data['user_id']).map { |membership| membership.community_id }
-  #   all_posts = Post.where(community_id: user_communities)
-  #   formatted_posts = {}
-  #   all_posts.each do |post|
-  #     mine = post.user_id == data['user_id']
-  #     formatted_posts[post.id] = {title: post.title, score: post.score, mine: mine, content: post.content, created_at: post.created_at}}
-  #   end
-  #   index_list = {}
-  #   formatted_posts.each_with_index do |post, index|
-  #     index_list[index] = post[:id]}
-  #   end
-  #   p index_list
-  #   {index: index_list, posts: formatted_posts}.to_json
-  # end
-
   # Input: :post_id
   # Output: JSON obj ranked by score in format #=> [{content: 'str', score: int, created_at: date}]
   # Improve this when I implement nested comments!!!
+  # def get_comments(data)
+  #   comments = Reply.where(post_id: data['post_id']).sort_by { |obj| obj[:created_at] }
+  #   associations = Hash.new([])
+  #   prepared_list = []
+  #   tree = Hash.new
+  #   comments.each do |comment|
+  #     node = Node.where(:parent_id => comment.id)
+  #     if node.length == 0
+  #       tree[comment.id] = {}
+  #     else
+  #       node.each { |elem| associations[node.parent_id] += [elem.child_id] }
+  #     end
+  #   end
+  #   p comments
+  #   comments.to_json
+  #   # comments.map do |comment|
+  #   #   # {comment.content, content.score, content.created_at}
+  #   # end
+  #   # # comments.sort! { |x, y| x['score'] <=> y['score'] }.to_json
+  #   # # p "it got here..."
+  #   # ["hello there"].to_json
+  # end
+
   def get_comments(data)
-    comments = Reply.where(post_id: data['post_id'])
-    comments.to_json
-    # comments.map do |comment|
-    #   # {comment.content, content.score, content.created_at}
-    # end
-    # # comments.sort! { |x, y| x['score'] <=> y['score'] }.to_json
-    # # p "it got here..."
-    # ["hello there"].to_json
+    all_comments = Reply.where(post_id: data['post_id'])
+    # base_comments = all_comments.map
   end
 
   # Input: :user_id
@@ -121,15 +121,16 @@ helpers do
   def my_groups(data)
     user_communities = Membership.where(user_id: data['user_id']).map { |membership| membership.community_id }
     all_of_my_communities = Community.find(user_communities)
-    return_payload = {'owned' => [], 'not_owned' => []}
-    all_of_my_communities.each do |community|
-      if community.creator_id == data['user_id']
-        return_payload['owned'] << community
-      else
-        return_payload['not_owned'] << community
-      end
-    end
-    return_payload.to_json
+    # return_payload = {'owned' => [], 'not_owned' => []}
+    # all_of_my_communities.each do |community|
+    #   if community.creator_id == data['user_id']
+    #     return_payload['owned'] << community
+    #   else
+    #     return_payload['not_owned'] << community
+    #   end
+    # end
+    # return_payload.to_json
+    all_of_my_communities.to_json
   end
 
 
